@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import {
   Github,
   Linkedin,
@@ -15,26 +16,47 @@ import {
   X,
 } from "lucide-react";
 
+const MotionSection = ({ children, className = "", id }: any) => (
+  <motion.section
+    id={id}
+    initial={{ opacity: 0, y: 18 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, amount: 0.2 }}
+    transition={{ duration: 0.6, ease: "easeOut" }}
+    className={className}
+  >
+    {children}
+  </motion.section>
+);
+
 export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const scrollToSection = (id:string) => {
+  const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setIsMenuOpen(false);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
+    <div className="min-h-screen text-white">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-slate-900/80 backdrop-blur-md z-50 border-b border-slate-700">
+      <nav className="fixed top-0 w-full bg-transparent backdrop-blur-md z-50">
         <div className="max-w-6xl mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+            <motion.h1
+              initial={{ opacity: 0, x: -6 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-accent-2 to-accent-1"
+              style={{
+                backgroundImage: "linear-gradient(90deg,#06b6d4,#7c3aed)",
+              }}
+            >
               Avinash Kumar
-            </h1>
+            </motion.h1>
 
             {/* Desktop Menu */}
-            <div className="hidden md:flex gap-6">
+            <div className="hidden md:flex gap-6 items-center">
               {[
                 "About",
                 "Experience",
@@ -43,13 +65,15 @@ export default function Portfolio() {
                 "Skills",
                 "Achievements",
               ].map((item) => (
-                <button
+                <motion.button
                   key={item}
                   onClick={() => scrollToSection(item.toLowerCase())}
-                  className="hover:text-blue-400 transition-colors"
+                  whileHover={{ y: -3 }}
+                  className="relative px-1 py-1 text-sm text-slate-300 hover:text-white transition-colors"
                 >
                   {item}
-                </button>
+                  <span className="absolute left-0 -bottom-0.5 w-0 h-0.5 bg-gradient-to-r from-accent-2 to-accent-1 transition-all group-hover:w-full"></span>
+                </motion.button>
               ))}
             </div>
 
@@ -57,6 +81,7 @@ export default function Portfolio() {
             <button
               className="md:hidden"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle menu"
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -64,7 +89,11 @@ export default function Portfolio() {
 
           {/* Mobile Menu */}
           {isMenuOpen && (
-            <div className="md:hidden mt-4 pb-4 flex flex-col gap-3">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="md:hidden mt-4 pb-4 flex flex-col gap-3"
+            >
               {[
                 "About",
                 "Experience",
@@ -76,74 +105,131 @@ export default function Portfolio() {
                 <button
                   key={item}
                   onClick={() => scrollToSection(item.toLowerCase())}
-                  className="text-left hover:text-blue-400 transition-colors"
+                  className="text-left hover:text-white text-slate-300 transition-colors"
                 >
                   {item}
                 </button>
               ))}
-            </div>
+            </motion.div>
           )}
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section id="about" className="pt-32 pb-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center">
-            <h2 className="text-5xl md:text-7xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+      <MotionSection id="about" className="pt-32 pb-10 px-4">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 items-center">
+          <div className="text-left">
+            <motion.h2
+              className="text-5xl md:text-6xl font-extrabold mb-4 bg-clip-text text-transparent"
+              style={{
+                backgroundImage: "linear-gradient(90deg,#06b6d4,#7c3aed)",
+              }}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
               Avinash Kumar
-            </h2>
-            <p className="text-2xl md:text-3xl text-slate-300 mb-8">
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.1 }}
+              className="text-2xl md:text-3xl text-slate-300 mb-4"
+            >
               Software Engineer
-            </p>
-            <p className="text-lg text-slate-400 max-w-2xl mx-auto mb-8">
-              MERN Stack Developer specializing in building exceptional digital
-              experiences with React, TypeScript, and modern web technologies.
-            </p>
+            </motion.p>
 
-            {/* Contact Info */}
-            <div className="flex flex-wrap justify-center gap-6 mb-8">
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="text-lg text-slate-400 max-w-xl mb-6"
+            >
+              MERN Stack Developer building performant and delightful user
+              experiences using React, TypeScript and modern tooling.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="flex flex-wrap gap-4"
+            >
               <a
+                className="btn-primary px-4 py-2 rounded-md shadow-sm inline-flex items-center gap-2"
+                href="#projects"
+              >
+                See Projects
+              </a>
+              <a
+                className="px-4 py-2 rounded-md border border-slate-700 text-slate-300 hover:text-white transition-colors"
                 href="mailto:avinashkr130728@gmail.com"
-                className="flex items-center gap-2 hover:text-blue-400 transition-colors"
               >
-                <Mail size={20} />
-                <span>avinashkr130728@gmail.com</span>
+                Contact
               </a>
-              <a
-                href="tel:9102524714"
-                className="flex items-center gap-2 hover:text-blue-400 transition-colors"
-              >
-                <Phone size={20} />
-                <span>9102524714</span>
-              </a>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.35 }}
+              className="flex flex-wrap gap-6 mt-6 text-slate-300"
+            >
               <div className="flex items-center gap-2">
-                <MapPin size={20} />
-                <span>Bangalore, India</span>
+                <Mail size={18} />
+                <span className="text-sm">avinashkr130728@gmail.com</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Phone size={18} />
+                <span className="text-sm">9102524714</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <MapPin size={18} />
+                <span className="text-sm">Bangalore, India</span>
+              </div>
+            </motion.div>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3 }}
+            className="flex justify-center md:justify-end"
+          >
+            <div className="glass-card card-shadow p-6 rounded-2xl flex flex-col items-center gap-4">
+              <div className="hero-avatar bg-gradient-to-tr from-accent-2 to-accent-1 flex items-center justify-center">
+                {/* Placeholder avatar - replace with your image in /public/avatar.jpg */}
+                <img
+                  src="/avatar.svg"
+                  alt="Avinash avatar"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="text-center">
+                <div className="font-semibold">Avinash Kumar</div>
+                <div className="text-sm text-slate-300">Software Engineer</div>
+              </div>
+              <div className="flex gap-3">
+                <a
+                  className="p-2 rounded-full bg-slate-800 hover:bg-slate-700 transition-colors"
+                  href="#"
+                >
+                  <Linkedin size={18} />
+                </a>
+                <a
+                  className="p-2 rounded-full bg-slate-800 hover:bg-slate-700 transition-colors"
+                  href="#"
+                >
+                  <Github size={18} />
+                </a>
               </div>
             </div>
-
-            {/* Social Links */}
-            <div className="flex justify-center gap-4">
-              <a
-                href="#"
-                className="p-3 bg-slate-800 rounded-full hover:bg-blue-600 transition-colors"
-              >
-                <Linkedin size={24} />
-              </a>
-              <a
-                href="#"
-                className="p-3 bg-slate-800 rounded-full hover:bg-purple-600 transition-colors"
-              >
-                <Github size={24} />
-              </a>
-            </div>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </MotionSection>
 
       {/* Experience Section */}
-      <section id="experience" className="py-20 px-4 bg-slate-800/50">
+      <MotionSection id="experience" className="py-20 px-4 bg-slate-800/50">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center gap-3 mb-12">
             <Briefcase className="text-blue-400" size={32} />
@@ -235,10 +321,10 @@ export default function Portfolio() {
             </div>
           </div>
         </div>
-      </section>
+      </MotionSection>
 
       {/* Education Section */}
-      <section id="education" className="py-20 px-4">
+      <MotionSection id="education" className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center gap-3 mb-12">
             <GraduationCap className="text-purple-400" size={32} />
@@ -275,10 +361,10 @@ export default function Portfolio() {
             </div>
           </div>
         </div>
-      </section>
+      </MotionSection>
 
       {/* Projects Section */}
-      <section id="projects" className="py-20 px-4 bg-slate-800/50">
+      <MotionSection id="projects" className="py-20 px-4 bg-slate-800/50">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center gap-3 mb-12">
             <Code className="text-blue-400" size={32} />
@@ -286,7 +372,11 @@ export default function Portfolio() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-slate-900 p-6 rounded-lg border border-slate-700 hover:border-blue-500 transition-all hover:shadow-lg hover:shadow-blue-500/20">
+            <motion.div
+              whileHover={{ scale: 1.02, y: -6 }}
+              whileTap={{ scale: 0.995 }}
+              className="bg-slate-900 p-6 rounded-lg border border-slate-700 transition-all hover:shadow-lg hover:shadow-blue-500/20"
+            >
               <h4 className="text-2xl font-bold text-blue-400 mb-4">
                 Simsun Electric
               </h4>
@@ -335,9 +425,13 @@ export default function Portfolio() {
                   JWT
                 </span>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="bg-slate-900 p-6 rounded-lg border border-slate-700 hover:border-purple-500 transition-all hover:shadow-lg hover:shadow-purple-500/20">
+            <motion.div
+              whileHover={{ scale: 1.02, y: -6 }}
+              whileTap={{ scale: 0.995 }}
+              className="bg-slate-900 p-6 rounded-lg border border-slate-700 transition-all hover:shadow-lg hover:shadow-purple-500/20"
+            >
               <h4 className="text-2xl font-bold text-purple-400 mb-4">
                 StudyNotion
               </h4>
@@ -376,13 +470,13 @@ export default function Portfolio() {
                   API Integration
                 </span>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </MotionSection>
 
       {/* Skills Section */}
-      <section id="skills" className="py-20 px-4">
+      <MotionSection id="skills" className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center gap-3 mb-12">
             <Code className="text-purple-400" size={32} />
@@ -472,10 +566,10 @@ export default function Portfolio() {
             </div>
           </div>
         </div>
-      </section>
+      </MotionSection>
 
       {/* Achievements Section */}
-      <section id="achievements" className="py-20 px-4 bg-slate-800/50">
+      <MotionSection id="achievements" className="py-20 px-4 bg-slate-800/50">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center gap-3 mb-12">
             <Award className="text-yellow-400" size={32} />
@@ -511,7 +605,7 @@ export default function Portfolio() {
             </div>
           </div>
         </div>
-      </section>
+      </MotionSection>
 
       {/* Footer */}
       <footer className="py-8 px-4 border-t border-slate-700">
