@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import {
   Github,
   Linkedin,
@@ -11,12 +12,17 @@ import {
   Briefcase,
   GraduationCap,
   Award,
-  ExternalLink,
   Menu,
   X,
 } from "lucide-react";
 
-const MotionSection = ({ children, className = "", id }: any) => (
+interface MotionSectionProps {
+  children: React.ReactNode;
+  className?: string;
+  id?: string;
+}
+
+const MotionSection = ({ children, className = "", id }: MotionSectionProps) => (
   <motion.section
     id={id}
     initial={{ opacity: 0, y: 18 }}
@@ -199,10 +205,13 @@ export default function Portfolio() {
             <div className="glass-card card-shadow p-6 rounded-2xl flex flex-col items-center gap-4">
               <div className="hero-avatar bg-gradient-to-tr from-accent-2 to-accent-1 flex items-center justify-center">
                 {/* Placeholder avatar - replace with your image in /public/avatar.jpg */}
-                <img
+                <Image
                   src="/avatar.svg"
                   alt="Avinash avatar"
+                  width={120}
+                  height={120}
                   className="w-full h-full object-cover"
+                  priority
                 />
               </div>
               <div className="text-center">
