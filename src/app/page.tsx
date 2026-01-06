@@ -104,11 +104,11 @@ export default function Portfolio() {
             {/* Contact Info */}
             <div className="flex flex-wrap justify-center gap-6 mb-8">
               <a
-                href="mailto:avi2y07111999@gmail.com"
+                href="mailto:avinashkr130728@gmail.com"
                 className="flex items-center gap-2 hover:text-blue-400 transition-colors"
               >
                 <Mail size={20} />
-                <span>avi2y07111999@gmail.com</span>
+                <span>avinashkr130728@gmail.com</span>
               </a>
               <a
                 href="tel:9102524714"
